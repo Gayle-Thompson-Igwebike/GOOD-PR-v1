@@ -30,6 +30,13 @@ async function startServer() {
 
   app.use("/", router);
 
+async function startserver() {
+  const pool = new Pool({
+    ssl: true,
+    connectionString: process.env.DATABASE_URL,
+  });
+  const dataBase = await pool.connect();
+  console.log(dataBase);
 
   app.get("/", (req, res) => {
     res.send("postman server testing!");
