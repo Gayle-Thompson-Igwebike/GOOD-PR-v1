@@ -5,10 +5,11 @@ import cors from "cors";
 import pkg from "pg";
 import router from "./config/router.js";
 const { Pool, PoolClient } = pkg;
-
+const axios = require("axios");
 const app = express();
-
 const port = process.env.PORT || 8000;
+
+
 
 export let dataBase;
 
@@ -28,6 +29,11 @@ async function startServer() {
   });
 
   app.use("/", router);
+
+
+  app.get("/", (req, res) => {
+    res.send("postman server testing!");
+  });
 
   app.post("/submit-form", async (req, res) => {
     const {
