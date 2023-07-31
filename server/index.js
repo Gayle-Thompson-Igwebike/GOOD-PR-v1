@@ -2,13 +2,16 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from "cors";
-import { config } from "dotenv";
 import pkg from "pg";
 
-config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+import totalTeamPR from "./totalTeamPR";
+const teamPRRoot = "/team";
+
+const port = process.env.PORT || 8000;
 
 async function startServer() {
   const { Pool } = pkg;
@@ -87,15 +90,16 @@ async function startServer() {
         const memberValues = [teamId, memberName, role, githubUsername];
         await dataBase.query(memberInsertQuery, memberValues);
       }
-      res.status(200).json({message: "Team information submitted"});
+      res.status(200).json({ message: "Team information submitted" });
     } catch (error) {
       console.error("Error submitting form:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });
+  app.use(teamPRRoot, totalTeamPR);
 
-  app.listen(8000, () => {
-    console.log("Server started on port 8000 on server");
+  app.listen(port, () => {
+    console.log(`Server started on port ${port} on server`);
   });
 }
 
