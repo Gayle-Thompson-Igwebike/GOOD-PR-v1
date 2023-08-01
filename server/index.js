@@ -2,7 +2,10 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from "cors";
-import pkg from "pg";
+// import pkg from "pg";
+// const { Pool, PoolClient } = pkg;
+// import axios from "axios";
+// import { dataBase } from "./DBConfig.js";
 
 const app = express();
 app.use(cors());
