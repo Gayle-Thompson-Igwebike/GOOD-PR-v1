@@ -1,14 +1,20 @@
 import { Router } from "express";
+import { Octokit } from "octokit";
+import { dataBase } from "./DBConfig.js";
+
 // import axios from "axios";
 const router = Router();
+const octokit = new Octokit({
+  //   auth: process.env.TOKEN,
+});
 
+// FUNCTION TO GET USERS THAT HAVE MADE PULL REQUESTS
 const pullRes = async () => {
-  const response = await octokit.request("GET /repos/{owner}/{repo}/pulls", {
-    owner: "Gayle-Thompson-Igwebike",
-    repo: "Good-PR-v1",
+  const owner = "Gayle-Thompson-Igwebike";
+  const repo = "Good-PR-v1";
+  const response = await octokit.request(`GET /repos/${owner}/${repo}/pulls`, {
     state: "all",
   });
-  // console.log(response.data);
   const users = response.data.map((item) => {
     return item.user.login;
   });
@@ -16,6 +22,7 @@ const pullRes = async () => {
   return users;
 };
 
+// FUNCTION TO COUNT PULL REQUESTS PER PERSON
 const prCount = async (users) => {
   const count = {};
 
@@ -28,21 +35,25 @@ const prCount = async (users) => {
 
 const users = await pullRes();
 prCount(users);
+// const pullRequestCount = prCount(users);
 
-router.put("/:id", async (req, res) => {
+// UPDATE REQUEST TO UPDATE INFORMATION ON DATABASE WITH PULL REQUEST AMOUNT FOR THE WHOLE TEAM
+export const totalTeamPRRouter = router.put("/:id", async (req, res) => {
   const teamId = parseInt(req.params.id);
 
-  const userNum = await pullRes();
+  //   const userNum = await pullRes();
 
-  const numLength = userNum.length;
+  const numLength = users.length;
 
   const updateQuery = "UPDATE fp_teams SET total_pull_req=$1 WHERE id=$2";
 
   console.log("teamId:", teamId);
   console.log("numLength:", numLength);
 
-  db.query(updateQuery, [numLength, teamId])
+  dataBase
+    .query(updateQuery, [numLength, teamId])
     .then((result) => {
+      console.log(result);
       if (result.rowCount === 0) {
         res.status(500).json({ message: "Team does not exist" });
       } else {
@@ -53,5 +64,3 @@ router.put("/:id", async (req, res) => {
       res.status(500).json({ error: error });
     });
 });
-
-export default router;
