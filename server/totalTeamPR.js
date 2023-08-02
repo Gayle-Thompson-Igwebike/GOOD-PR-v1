@@ -8,50 +8,55 @@ const octokit = new Octokit({
   //   auth: process.env.TOKEN,
 });
 
-// const url = "https://github.com/Gayle-Thompson-Igwebike/GOOD-PR-v1";
-// const { owner, repo } = extractOwnerAndRepoFromUrl(url);
-// console.log("Owner:", owner); // Output: "Gayle-Thompson-Igwebike"
-// console.log("Repo:", repo); // Output: "GOOD-PR-v1"
-
 // CODE TO GET REPO LINK FROM THE DATABASE
 
-const repoLink = dataBase
-  .query("SELECT repo_link FROM fp_teams")
-  .then((result) => {
+async function getRepoLink() {
+  try {
+    const result = await dataBase.query("SELECT repo_link FROM fp_teams");
     if (result.rowCount === 0) {
       console.log("No link found");
+      return null;
     } else {
       const values = result.rows.map((eachRow) => eachRow.repo_link);
-      console.log(values);
+      //   console.log(values);
       return values;
     }
-  })
-  .catch((error) => {
+  } catch (error) {
     console.log(error);
-  });
+  }
+}
+
+const repoLink = await getRepoLink();
+// console.log("These are the links", repoLink);
 
 //   TO GET EACH REPO LINK
-// const eachURL = repoLink.forEach((link) => {
-//   console.log(link);
-//   return link;
-// });
+const eachURL = repoLink.forEach((link) => {
+  console.log(link);
+  return link;
+});
 
 //   FUNCTION TO TRANSFORM REPO LINK URL INTO OWNER AND REPO FOR THE PUT REQUEST FOR PULL REQUESTS
 
-function extractOwnerAndRepoFromUrl(url) {
-  // Remove "https://" from the URL
-  const urlWithoutProtocol = url.replace(/^https:\/\//i, "");
+// function extractOwnerAndRepoFromUrl(url) {
+//   // Remove "https://" from the URL
+//   const urlWithoutProtocol = url.replace(/^https:\/\//i, "");
+//   // for(let eachURL of url)
 
-  // Split the URL by "/"
-  const urlParts = urlWithoutProtocol.split("/");
-  console.log(urlParts);
+//   // Split the URL by "/"
+//   const urlParts = urlWithoutProtocol.split("/");
+//   console.log(urlParts);
 
-  // Extract the owner and repo from the URL
-  const owner = urlParts[1];
-  const repo = urlParts[2];
+//   // Extract the owner and repo from the URL
+//   const owner = urlParts[1];
+//   const repo = urlParts[2];
 
-  return { owner, repo };
-}
+//   return { owner, repo };
+// }
+
+// const url = eachURL;
+// const { owner, repo } = extractOwnerAndRepoFromUrl(url);
+// console.log("Owner:", owner); // Output: "Gayle-Thompson-Igwebike"
+// console.log("Repo:", repo); // Output: "GOOD-PR-v1"
 
 // FUNCTION TO GET USERS THAT HAVE MADE PULL REQUESTS
 const pullRes = async () => {
