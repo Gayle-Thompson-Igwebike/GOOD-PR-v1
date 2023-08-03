@@ -3,42 +3,34 @@ import axios from "axios";
 const router = Router();
 
 
-// (git api request format)
-// https://api.github.com/repos/Gayle-Thompson-Igwebike/Affirmation-page/pulls?state=all
+// (git api request format to get all collaborators PRs)
 
-api.github.com/search/issues?q=is:pr+repo:{owner}/{repo}/+author:{author}
+const apiUrl = `https://api.github.com/repos/Gayle-Thompson-Igwebike/GOOD-PR-v1/pulls`;
 
+
+//(git api request format to get a single users PRs)
+
+const singleUserapiUrl = `https://api.github.com/search/issues?q=is:pr+repo:Gayle-Thompson-Igwebike/GOOD-PR-v1/+author:Gayle-Thompson-Igwebike`
+
+
+ export const getPRCount = router.get("/", (req, res) => {
 // variables to hold username and repository name on GitHub.
+   const repoOwner = "Gayle-Thompson-Igwebike";
+   const repoName = "Affirmation-page";
 
-https: export const getPRCount = router.get("/", (req, res) => {
-  const repoOwner = "Gayle-Thompson-Igwebike";
-  const repoName = "Affirmation-page";
+   axios
+     .get(singleUserapiUrl)
+     .then((response) => {
+       const pullRequestCount = response.data.length;
+       console.log(
+         `Total Number of pull request contributions from ${repoOwner} in this repo is: ${pullRequestCount}`
+       );
 
-  // API URL to fetch pull request data from GitHub
-//   const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/pulls?state=all`;
+       res.status(200).json({ pullRequestCount: pullRequestCount });
+     })
+     .catch((error) => {
+       console.error("Error fetching pull requests:", error);
+       res.status(500).json({ error: "Internal server error" });
+     });
+ });
 
-  api.github.com/search/issues?q=is:pr+repo:{owner}/{repo}/+author:{author}
-
-
-const `https://api.github.com/search/issues?q=is:pr+repo:{owner}/{repo}/+author:{author}`
-
-const apiUrl = `https://api.github.com/search/issues?q=is:pr+repo:myusername/myrepo+author:myauthor`;
-
-
-  https: axios
-    .get(apiUrl)
-    .then((response) => {
-      const pullRequestCount = response.data.length;
-      console.log(
-        `Total Number of pull request contributions from ${repoOwner} in this repo is: ${pullRequestCount}`
-      );
-
-      res.status(200).json({ Message: "This is the result of your request" });
-    })
-
-    .catch((error) => {
-      console.error("Error fetching pull requests:", error);
-    });
-});
-
- 
