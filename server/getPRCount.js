@@ -22,10 +22,18 @@ const singleUserapiUrl = `https://api.github.com/search/issues?q=is:pr+repo:Gayl
      .get(singleUserapiUrl)
      .then((response) => {
        const pullRequestCount = response.data.length;
+
+       if (!response.data) {
+         res.send("An error has occurred: " + response.data.message);
+       } else {
+         res.status(200).json({ message: "Here is the requested data" });
+       }
+
        console.log(
          `Total Number of pull request contributions from ${repoOwner} in this repo is: ${pullRequestCount}`
        );
 
+       
        res.status(200).json({ pullRequestCount: pullRequestCount });
      })
      .catch((error) => {
