@@ -31,6 +31,9 @@ async function startServer() {
   });
 
   app.use("/", router);
+app.get("/", (req, res) => {
+  res.send("Server side is working");
+});
 
 async function startserver() {
   const pool = new Pool({
