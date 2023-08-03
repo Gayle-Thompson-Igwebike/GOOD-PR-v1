@@ -6,6 +6,8 @@ import pkg from "pg";
 import router from "./config/router.js";
 const { Pool, PoolClient } = pkg;
 const axios = require("axios");
+import { getPRCount } from "./getPRCount.js";
+const getPRCountRoot = "/pr";
 const app = express();
 const port = process.env.PORT || 8000;
 
