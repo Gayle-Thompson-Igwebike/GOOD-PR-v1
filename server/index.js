@@ -2,22 +2,19 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from "cors";
-// import pkg from "pg";
-// const { Pool, PoolClient } = pkg;
-// import axios from "axios";
-// import { dataBase } from "./DBConfig.js";
+import pkg from "pg";
+const { Pool, PoolClient } = pkg;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-import totalTeamPR from "./totalTeamPR";
+import { totalTeamPRRouter } from "./totalTeamPR.js";
 const teamPRRoot = "/team";
 
 const port = process.env.PORT || 8000;
 
 async function startServer() {
-  const { Pool } = pkg;
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
@@ -28,7 +25,7 @@ async function startServer() {
   });
 
   const dataBase = await pool.connect();
-  console.log(dataBase);
+  // console.log(dataBase);
 
   app.post("/submit-form", async (req, res) => {
     const {
@@ -99,7 +96,7 @@ async function startServer() {
       res.status(500).json({ error: "Internal server error" });
     }
   });
-  app.use(teamPRRoot, totalTeamPR);
+  app.use(teamPRRoot, totalTeamPRRouter);
 
   app.listen(port, () => {
     console.log(`Server started on port ${port} on server`);
