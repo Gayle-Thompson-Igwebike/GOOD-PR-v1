@@ -10,20 +10,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-import { getTeamDataRouter } from "./getTeamData.js";
-const getTeamDataRoot = "/team";
-
 async function startServer() {
   const { Pool } = pkg;
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
   });
-  const dataBase = await pool.connect();
 
   app.get("/", (req, res) => {
     res.send("Server is running");
   });
+
+  const dataBase = await pool.connect();
+  console.log(dataBase);
 
   app.post("/submit-form", async (req, res) => {
     const {
@@ -89,14 +88,15 @@ async function startServer() {
         await dataBase.query(memberInsertQuery, memberValues);
       }
 
-      res.status(200).json({ message: "Team information submitted" });
+    
+
+      res.status(200).json({message: "Team information submitted"});
+
     } catch (error) {
       console.error("Error submitting form:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   });
-
-  app.use(getTeamDataRoot, getTeamDataRouter);
 
   app.listen(8000, () => {
     console.log("Server started on port 8000 on server");

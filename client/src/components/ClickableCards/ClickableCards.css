@@ -6,15 +6,4 @@
   background-color: #adff2f;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 0.5em;
-}
-
-.team-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
-  justify-items: center;
-  margin: 20px 10px;
-  column-gap: 5px;
-  row-gap: 20px;
 }

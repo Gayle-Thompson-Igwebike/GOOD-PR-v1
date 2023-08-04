@@ -1,9 +1,9 @@
 import "../ClickableCards/ClickableCards.css";
 
-const ClickableCards = ({ teamName }) => {
+const ClickableCards = () => {
   return (
     <main>
-      <div className="team-box">{teamName}</div>
+      <div className="team-box">Dummy Team</div>
     </main>
   );
 };
