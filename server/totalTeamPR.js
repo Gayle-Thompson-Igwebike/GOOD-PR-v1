@@ -9,7 +9,6 @@ const octokit = new Octokit({
 });
 
 // CODE TO GET REPO LINK FROM THE DATABASE
-
 async function getRepoLink() {
   try {
     const result = await dataBase.query("SELECT repo_link FROM fp_teams");
@@ -18,7 +17,6 @@ async function getRepoLink() {
       return null;
     } else {
       const values = result.rows.map((eachRow) => eachRow.repo_link);
-      //   console.log(values);
       return values;
     }
   } catch (error) {
@@ -26,65 +24,59 @@ async function getRepoLink() {
   }
 }
 
+// Returns an array of GitHub Repo Links
 const repoLink = await getRepoLink();
-// console.log("These are the links", repoLink);
-
-//   TO GET EACH REPO LINK
-const eachURL = repoLink.forEach((link) => {
-  console.log(link);
-  return link;
-});
 
 //   FUNCTION TO TRANSFORM REPO LINK URL INTO OWNER AND REPO FOR THE PUT REQUEST FOR PULL REQUESTS
+function extractOwnerAndRepoFromUrl(url) {
+  // Remove "https://" from the URL and replace with an empty string.
+  // All passed URL have to be a string as .replace is a string method.
+  const urlWithoutProtocol = url.replace(/^https:\/\//i, "");
 
-// function extractOwnerAndRepoFromUrl(url) {
-//   // Remove "https://" from the URL
-//   const urlWithoutProtocol = url.replace(/^https:\/\//i, "");
-//   // for(let eachURL of url)
+  // Split the URL by "/"
+  const urlParts = urlWithoutProtocol.split("/");
+  console.log(urlParts);
 
-//   // Split the URL by "/"
-//   const urlParts = urlWithoutProtocol.split("/");
-//   console.log(urlParts);
+  // Extract the owner and repo from the URL
+  const owner = urlParts[1];
+  const repo = urlParts[2];
 
-//   // Extract the owner and repo from the URL
-//   const owner = urlParts[1];
-//   const repo = urlParts[2];
-
-//   return { owner, repo };
-// }
-
-// const url = eachURL;
-// const { owner, repo } = extractOwnerAndRepoFromUrl(url);
-// console.log("Owner:", owner); // Output: "Gayle-Thompson-Igwebike"
-// console.log("Repo:", repo); // Output: "GOOD-PR-v1"
+  return { owner, repo };
+}
 
 // FUNCTION TO GET USERS THAT HAVE MADE PULL REQUESTS
-const pullRes = async () => {
-  const owner = "Gayle-Thompson-Igwebike";
-  const repo = "Good-PR-v1";
+const pullRes = async (owner, repo) => {
   const response = await octokit.request(`GET /repos/${owner}/${repo}/pulls`, {
     state: "all",
   });
-  const users = response.data.map((item) => {
+  const userWhoMadeAPR = response.data.map((item) => {
     return item.user.login;
   });
-  console.log(users);
-  return users;
+  console.log("All users", userWhoMadeAPR);
+  return userWhoMadeAPR;
 };
+
+for (let eachURL of repoLink) {
+  const { owner, repo } = extractOwnerAndRepoFromUrl(eachURL);
+  console.log("Owner:", owner); // Output: "Gayle-Thompson-Igwebike"
+  console.log("Repo:", repo); // Output: "GOOD-PR-v1"
+  const users = await pullRes(owner, repo);
+  // console.log(users);
+}
 
 // FUNCTION TO COUNT PULL REQUESTS PER PERSON
-const prCount = async (users) => {
-  const count = {};
+// const prCount = async (users) => {
+//   const count = {};
 
-  for (let eachName of users) {
-    count[eachName] = count[eachName] ? count[eachName] + 1 : 1;
-  }
-  console.log(count);
-  return count;
-};
+//   for (let eachName of users) {
+//     count[eachName] = count[eachName] ? count[eachName] + 1 : 1;
+//   }
+//   console.log(count);
+//   return count;
+// };
 
-const users = await pullRes();
-prCount(users);
+// const users = await pullRes(owner, repo);
+// prCount(users);
 
 // UPDATE REQUEST TO UPDATE INFORMATION ON DATABASE WITH PULL REQUEST AMOUNT FOR THE WHOLE TEAM
 export const totalTeamPRRouter = router.put("/:id", (req, res) => {
