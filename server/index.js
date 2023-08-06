@@ -7,7 +7,11 @@ import router from "./config/router.js";
 const { Pool, PoolClient } = pkg;
 const axios = require("axios");
 import { getPRCount } from "./getPRCount.js";
-const getPRCountRoot = "/pr";
+const getPRCountRoot = "/pullrequests";
+import { getAllTeamMembersPRs } from "./getPRCount.js";
+import { getUserPRs } from "./getPRCount.js";
+
+
 const app = express();
 const port = process.env.PORT || 8000;
 
@@ -41,7 +45,6 @@ async function startserver() {
     connectionString: process.env.DATABASE_URL,
   });
   const dataBase = await pool.connect();
-  console.log(dataBase);
 
   app.get("/", (req, res) => {
     res.send("postman server testing!");
@@ -116,7 +119,10 @@ async function startserver() {
       res.status(500).json({ error: "Internal server error" });
     }
   });
+  app.use(getPRCountRoot, getAllTeamMembersPRs);
+  app.use(getPRCountRoot, getUserPRs);
 
+  
   app.listen(port, () => {
     console.log(`Server started on port ${port} on server`);
   });
