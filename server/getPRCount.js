@@ -4,27 +4,28 @@ const router = Router();
 
 // (api request to get all collaborators PRs including closed prs is:  https://api.github.com/repos/${repoOwner}/${repoName}/pulls?state=all
 
-//example using our goodpR-V1- repo below:
+// (git api request format)
+// https://api.github.com/repos/Gayle-Thompson-Igwebike/Affirmation-page/pulls?state=all
 
-const PullRequestsApiUrl = `https://api.github.com/repos/Gayle-Thompson-Igwebike/GOOD-PR-v1/pulls?state=all`;
+//example using our goodpR-V1- repo below:
 
 export const getAllTeamMembersPRs = router.get("/", (req, res) => {
   const repoOwner = "Gayle-Thompson-Igwebike";
   const repoName = "GOOD-PR-v1";
+  const PullRequestsApiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/pulls?state=all`;
 
   axios
     .get(PullRequestsApiUrl)
     .then((response) => {
-      const pullRequestCount = response.data.length;
+      console.log(response)
+      const pullRequests = response.data.items;
+      const pullRequestCount = pullRequests.length;
 
-      if (!response.data) {
-        res.send("An error has occurred: " + response.data.message);
-      } else {
-        res.status(200).json({
-          message: `Total Number of pull request contributions from this repo is: ${pullRequestCount}`,
-        });
-      }
-      res.status(200).json({ pullRequestCount: pullRequestCount });
+      console.log(
+        `Total Number of pull request contributions by in this repo is: ${pullRequestCount}`
+      );
+
+      res.status(200).json({ pullRequestCount });
     })
     .catch((error) => {
       console.error("Error fetching pull requests:", error);
