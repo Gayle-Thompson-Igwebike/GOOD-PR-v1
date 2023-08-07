@@ -16,6 +16,14 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 
+  async function startServer() {
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    });
+    const dataBase = await pool.connect();
 
 export let dataBase;
 
@@ -126,6 +134,6 @@ async function startserver() {
   app.listen(port, () => {
     console.log(`Server started on port ${port} on server`);
   });
-}
+}}
 
 startServer();
