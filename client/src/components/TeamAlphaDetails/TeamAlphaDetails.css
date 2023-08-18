@@ -1,0 +1,25 @@
+
+.centered-heading {
+  text-align: center;
+
+}
+
+.h2 {
+ 
+  font-weight:bold;
+}
+
+.name-text {
+  color: rgb(64, 63, 63); 
+}
+
+.colored-text {
+  color: #FF0000; 
+}
+.team-alpha-cards {
+  padding: 1rem;
+}
+
+.white-text {
+  color: white;
+}

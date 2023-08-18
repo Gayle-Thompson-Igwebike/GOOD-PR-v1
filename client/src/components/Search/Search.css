@@ -1,0 +1,40 @@
+.search-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.search-form label {
+  text-align: left;
+  color: #007bff;
+  margin-bottom: 5px;
+  font-size: 1em;
+}
+
+#search {
+  border-radius: 8px;
+  font-size: 1em;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.team-info {
+  display: grid;
+  grid-template-columns: 11.5em 11.5em;
+  grid-template-rows: 6em;
+  column-gap: 5px;
+  row-gap: 5px;
+  margin: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.team-name {
+  border-bottom: 2px double #007bff;
+  margin: 10px 20px;
+}
+
+.member-name {
+  height: 38px;
+}

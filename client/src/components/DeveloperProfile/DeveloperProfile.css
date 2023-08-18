@@ -1,0 +1,48 @@
+.person-card {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.person-name {
+  font-size: 1.5rem;
+  margin: 8px 0;
+}
+
+.person-role {
+  font-size: 1rem;
+  margin: 8px 0;
+  color: #777;
+}
+
+.person-github,
+.person-linkedin {
+  font-size: 1rem;
+  margin: 8px 0;
+  color: #777;
+}
+
+.links {
+  color: #007bff;
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  .person-card {
+    margin: 8px;
+  }
+
+  .person-name {
+    font-size: 1.2rem;
+    margin: 4px 0;
+  }
+
+  .person-role,
+  .person-github,
+  .person-linkedin {
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+}

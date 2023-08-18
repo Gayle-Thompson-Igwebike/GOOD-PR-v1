@@ -1,0 +1,103 @@
+.header-content {
+  display: flex;
+  align-items: baseline;
+}
+
+.header-text {
+  margin-right: 10vh;
+}
+
+/* Styles for the links on larger screens */
+.header-links {
+  display: flex;
+  gap: 20px;
+}
+
+.header-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 3vmin;
+}
+
+/* Optional: If you want to change the color of links on hover */
+.header-links a:hover {
+  color: lightgray;
+}
+
+/* Styles for the hamburger menu */
+.hamburger-menu {
+  display: none;
+  /* Hide the hamburger menu by default */
+}
+
+/* Styles for the hamburger menu lines */
+.hamburger-line {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  margin: 6px 0;
+}
+
+/* Styles for the links on smaller screens (when hamburger menu is shown) */
+@media (max-width: 730px) {
+  .header-links {
+    display: none;
+    /* Hide the links when hamburger menu is shown */
+  }
+
+  .hamburger-menu {
+    z-index: 10;
+    display: block;
+    /* Show the hamburger menu button */
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+  }
+}
+
+/* Styles for the hamburger menu lines when active */
+.hamburger-menu.active .hamburger-line {
+  background-color: black;
+  /* You can set any color here to indicate the active state */
+}
+
+/* Styles for the off-canvas menu */
+.off-canvas-menu {
+  z-index: 1;
+  display: none;
+  /* Hide the off-canvas menu by default */
+  position: fixed;
+  top: 8vh;
+  right: 0;
+  width: 160px;
+  /* Adjust the width of the off-canvas menu */
+  height: 100%;
+  background-color: #ee4434;
+  color: white;
+  padding: 20px;
+}
+
+.off-canvas-menu .list-links {
+  display: block;
+  color: white;
+  text-decoration: none;
+  text-align: left;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.list-links a:visited {
+  color: white;
+}
+
+/* Show the off-canvas menu when the showMenu state is true */
+.show-off-canvas-menu {
+  display: block;
+}
+
+/* Apply a different color on hover */
+.off-canvas-menu a:hover {
+  color: lightgray;
+  text-decoration: underline;
+  /* Change to your preferred color */
+}

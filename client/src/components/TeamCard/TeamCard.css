@@ -1,0 +1,37 @@
+.card-top {
+  display: flex;
+  width: 90%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.small-team-btn {
+  width: 6.5em;
+  height: 6.5em;
+  background-color: darkslategrey;
+  color: white;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  align-items: center;
+  text-align: center;
+  word-break: break-word;
+  padding: 0.5em;
+  font-size: 0.9em;
+}
+
+.icons-container {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+.spacer {
+  height: 50px;
+}

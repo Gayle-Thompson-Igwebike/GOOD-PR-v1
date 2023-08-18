@@ -1,0 +1,23 @@
+/* Styles for the footer */
+.App-footer {
+    background-color: #ee4434;
+    /* This is the brand colour of CYF */
+    min-height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: calc(10px + 1vmin);
+    color: rgb(255, 255, 255);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer-link:hover {
+    color: lightgray;
+}
